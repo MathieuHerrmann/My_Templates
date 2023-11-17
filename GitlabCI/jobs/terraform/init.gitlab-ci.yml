@@ -1,0 +1,12 @@
+.init:
+  rules:
+    - changes:
+      - terraform/*
+  script: 
+    - gitlab-terraform init
+  artifacts:
+    name: "init:${CI_JOB_ID}"
+    when: "on_success"
+    expire_in: "6h"
+    paths:
+      - ${TF_ROOT}/.terraform/

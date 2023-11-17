@@ -1,0 +1,3 @@
+.fmt:
+  script:
+    - gitlab-terraform fmt -check -recursive

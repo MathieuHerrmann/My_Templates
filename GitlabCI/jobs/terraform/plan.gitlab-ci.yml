@@ -1,0 +1,14 @@
+.plan:
+  rules:
+    - changes:
+      - terraform/*
+  script:
+    - gitlab-terraform plan # -var-file=config/commons.tfvars -var-file=config/${ENV}.tfvars
+    - gitlab-terraform plan-json # -var-file=config/commons.tfvars -var-file=config/${ENV}.tfvars
+  artifacts:
+    name: "plan:${CI_JOB_ID}"
+    paths:
+      - ${TF_ROOT}/plan.cache
+      # - ${TF_ROOT}/builds
+    reports:
+      terraform: ${TF_ROOT}/plan.json

@@ -1,0 +1,10 @@
+.destroy:
+  rules:
+    - changes:
+      - terraform/*
+  script:
+    - gitlab-terraform destroy # -var-file=config/commons.tfvars -var-file=config/${ENV}.tfvars
+  when: manual
+  environment:
+    name: ${ENV}
+    action: stop

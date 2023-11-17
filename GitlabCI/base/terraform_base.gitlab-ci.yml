@@ -1,0 +1,55 @@
+###############################################################################
+############################## INCLUDE #######################################
+###############################################################################
+include:
+  - local: 'GitlabCI/jobs/terraform/init.gitlab-ci.yml'
+  - local: 'GitlabCI/jobs/terraform/fmt.gitlab-ci.yml'
+  - local: 'GitlabCI/jobs/terraform/validate.gitlab-ci.yml'
+  - local: 'GitlabCI/jobs/terraform/plan.gitlab-ci.yml'
+  - local: 'GitlabCI/jobs/terraform/apply.gitlab-ci.yml'
+  - local: 'GitlabCI/jobs/terraform/destroy.gitlab-ci.yml'
+
+
+###############################################################################
+########################### GLOBAL DEFINITION #################################
+###############################################################################
+
+cache:
+  key: ${ENV}_state
+  paths:
+    - ${TF_ROOT}/.terraform
+
+###############################################################################
+######################## YAML ANCHOR DEFINITION ###############################
+###############################################################################
+
+.terraform_image: &terraform_image
+  registry.gitlab.com/gitlab-org/terraform-images/stable:latest # Check the image version
+
+###############################################################################
+############################## JOBS CALL #######################################
+###############################################################################
+
+.terraform:init:
+  image: *terraform_image
+  extends: .init
+
+.terraform:fmt:
+  image: *terraform_image
+  extends: .fmt
+
+.terraform:validate:
+  image: *terraform_image
+  extends: .validate
+
+.terraform:plan:
+  image: *terraform_image
+  extends: .plan
+
+.terraform:apply:
+  image: *terraform_image
+  extends: .apply
+
+.terraform:destroy:
+  image: *terraform_image
+  extends: .destroy

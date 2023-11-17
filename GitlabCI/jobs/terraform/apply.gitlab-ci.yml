@@ -1,0 +1,16 @@
+## Uncomment the following lines,
+## if you need to process some data from terraform output in other jobs
+.apply:
+  rules:
+    - changes:
+      - terraform/*
+  script:
+    - gitlab-terraform apply
+    # - gitlab-terraform output > "${CI_PROJECT_DIR}/terraform_output.txt
+  # artifacts:
+  #   name: "apply:${CI_JOB_ID}"
+  #   paths:
+  #     - "${CI_PROJECT_DIR}/terraform_output.txt"
+  when: manual
+  environment:
+    name: ${ENV}

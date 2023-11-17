@@ -1,0 +1,70 @@
+###############################################################################
+############################## INCLUDE #######################################
+###############################################################################
+
+include:
+  - project: "" # Change this path to fetch all base template that you need in you final pipeline
+    ref: main
+    file: # Import base that you needs in you final pipeline
+    - '/GitlabCI/base/base_terraform.gitlab-ci.yml'
+    - '/GitlabCI/jobs/base_node.gitlab-ci.yml'
+
+###############################################################################
+######################## YAML ANCHOR DEFINITION ###############################
+###############################################################################
+
+.example_setup: &example_setup
+  variables:
+    ENV: "example"
+  stage: example
+  rules: # Change the rules to fit with the trigger pipline that you want
+    - if: $CI_PIPELINE_SOURCE == "push" &&  $CI_COMMIT_BRANCH == "main" # trigger to every push on main
+
+###############################################################################
+############################## JOBS CALL #######################################
+###############################################################################
+
+
+example:terraform:init:
+  <<: *example_setup
+  extends: .terraform:init
+
+example:node:test:
+  extends: .node:test
+  <<: *example_setup
+
+example:node:build:
+  extends: .node:build
+  <<: *example_setup
+  needs: ["example:node:test"]
+  before_script: # setup job
+    - export NODE_ENV="development"
+
+example:terraform:fmt:
+  <<: *example_setup
+  extends: .terraform:fmt
+  needs: ["example:terraform:init"]
+
+example:terraform:validate:
+  <<: *example_setup
+  extends: .terraform:validate
+  needs: ["example:terraform:init"]
+
+example:terraform:plan:
+  <<: *example_setup
+  extends: .terraform:plan
+  needs: ["example:terraform:validate", "example:terraform:fmt", "example:node:build"]
+
+example:terraform:apply:
+  <<: *example_setup
+  extends: .terraform:apply
+  needs: ["example:terraform:plan", "example:node:build"]
+
+example:other:cache_invalidation:
+  <<: *example_setup
+  extends: .other:cache_invalidation
+  needs: ["example:terraform:apply"]
+
+example:terraform:destroy:
+  extends: .terraform:destroy
+  <<: *example_setup
