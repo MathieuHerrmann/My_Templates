@@ -1,20 +1,21 @@
-
 # My_Templates
 
 There is my templates that I create and use, Feel free to add / update some
 
+<!-- toc -->
+## Table of content
+- [Resources](#resources)
+- [TODO](#todo)
+- [Contributing](#contributing)
+- [Authors](#authors)
 
-# Table of Contents
-
-* [Resources](#resources)
-* [TODO](#todo)
-* [Contributing](#contributing)
-* [Authors](#authors)
-
+<!-- tocstop -->
 
 # Resources
 
 * [Terraform](Terraform/README.md)
+    * AWS
+        * [s3_bucket_static_website](Terraform/modules/AWS/s3_bucket_static_website/README.md)
 * [Gitlab CI](GitlabCI/README.md) 
     * [Pipeline](GitlabCI/pipelines/README.md)
         * [Multi-env](GitlabCI/pipelines/multi-env/README.md)
@@ -27,8 +28,8 @@ There is my templates that I create and use, Feel free to add / update some
 - [x]  Import Pipeline multi env
 - [ ]  Import my Terraform Modules That I have already did.
 - [ ]  Create Terraform module for regular usage and very generic
-- [ ]  Write `./Readme.md` 
-- [ ]  Write `./GitlabCI/Readme.md` 
+- [x]  Write `./Readme.md` 
+- [x]  Write `./GitlabCI/Readme.md` 
 - [ ]  Write `./Terraform/Readme.md` 
 - [ ]  Create Shell script Template
 - [ ]  Make the `contributing.md`

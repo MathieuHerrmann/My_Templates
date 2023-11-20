@@ -1,7 +1,7 @@
 <!-- BEGIN_TF_DOCS -->
 # AWS_s3_bucket_static_website
 <!-- toc -->
-
+## Table of content
 - [Requirements](#requirements)
 - [Providers](#providers)
 - [Modules](#modules)
