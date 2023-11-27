@@ -1,0 +1,8 @@
+---
+- name: Template playbook
+  hosts: localhost
+
+  tasks:
+  - name: Hello
+    debug:
+      msg: "Hello World !!"
