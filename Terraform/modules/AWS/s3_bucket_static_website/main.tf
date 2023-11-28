@@ -23,7 +23,7 @@ resource "aws_s3_bucket_public_access_block" "block_access_s3" {
 }
 
 resource "aws_s3_object" "website_files" {
-  for_each     = fileset("${local.website_files_path}", "**") 
+  for_each     = fileset("${local.website_files_path}", "**")
   bucket       = aws_s3_bucket.static_web.id
   key          = each.value
   source       = "${website_files_path}${each.value}"

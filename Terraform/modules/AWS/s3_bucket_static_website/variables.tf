@@ -3,11 +3,11 @@ variable "bucket_name" {
 }
 
 variable "prefix" {
-  type = string 
+  type = string
 }
 
 variable "error_document_name" {
-  type = string
+  type    = string
   default = "index.html"
 }
 
