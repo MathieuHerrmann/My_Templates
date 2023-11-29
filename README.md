@@ -33,6 +33,9 @@ There is my templates that I create and use, Feel free to add / update some
 - [ ]  Write `./Terraform/Readme.md` 
 - [ ]  Create Shell script Template
 - [ ]  Make the `contributing.md`
+- [ ]  Mise en place de [Docusaurus](https://docusaurus.io/)
+- [ ]  Mise en place de [Trunk](https://trunk.io/)
+- [ ]  Mise en place de  [Commitizen](https://commitizen-tools.github.io/commitizen/)
 
 
 # Contributing
