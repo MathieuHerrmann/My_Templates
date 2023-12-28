@@ -2,16 +2,23 @@
 ############################## INCLUDE #######################################
 ###############################################################################
 
+# include:
+#   - project: "" # Change this path to fetch all base template that you need in you final pipeline
+#     ref: main
+#     file: # Import base that you needs in you final pipeline
+#     - '/GitlabCI/base/base_terraform.gitlab-ci.yml'
+#     - '/GitlabCI/base/node_base.gitlab-ci.yml'
+
 include:
-  - project: "" # Change this path to fetch all base template that you need in you final pipeline
-    ref: main
-    file: # Import base that you needs in you final pipeline
-    - '/GitlabCI/base/base_terraform.gitlab-ci.yml'
-    - '/GitlabCI/jobs/base_node.gitlab-ci.yml'
+  - local: '/GitlabCI/base/base_terraform.gitlab-ci.yml'
+  - local: '/GitlabCI/base/node_base.gitlab-ci.yml'
 
 ###############################################################################
 ######################## YAML ANCHOR DEFINITION ###############################
 ###############################################################################
+
+.pre_script_env_common: &pre_script_env_common
+  - echo "job_name is $CI_JOB_NAME"
 
 .example_setup: &example_setup
   variables:
@@ -28,43 +35,68 @@ include:
 example:terraform:init:
   <<: *example_setup
   extends: .terraform:init
+  before_script:
+    - !reference [.terraform:init, before_script]
+    - *pre_script_env_common
 
 example:node:test:
   extends: .node:test
   <<: *example_setup
+  before_script:
+    - !reference [.node:test, before_script]
+    - *pre_script_env_common
 
 example:node:build:
   extends: .node:build
   <<: *example_setup
   needs: ["example:node:test"]
-  before_script: # setup job
+  before_script:
+    - !reference [.node:build, before_script]
     - export NODE_ENV="development"
+    - *pre_script_env_common
 
 example:terraform:fmt:
   <<: *example_setup
   extends: .terraform:fmt
   needs: ["example:terraform:init"]
+  before_script:
+    - !reference [.terraform:fmt, before_script]
+    - *pre_script_env_common
 
 example:terraform:validate:
   <<: *example_setup
   extends: .terraform:validate
   needs: ["example:terraform:init"]
+  before_script:
+    - !reference [.terraform:validate, before_script]
+    - *pre_script_env_common
 
 example:terraform:plan:
   <<: *example_setup
   extends: .terraform:plan
   needs: ["example:terraform:validate", "example:terraform:fmt", "example:node:build"]
+  before_script:
+    - !reference [.terraform:plan, before_script]
+    - *pre_script_env_common
 
 example:terraform:apply:
   <<: *example_setup
   extends: .terraform:apply
   needs: ["example:terraform:plan", "example:node:build"]
+  before_script:
+    - !reference [.terraform:apply, before_script]
+    - *pre_script_env_common
 
-example:other:cache_invalidation:
-  <<: *example_setup
-  extends: .other:cache_invalidation
-  needs: ["example:terraform:apply"]
+# example:other:cache_invalidation:
+#   <<: *example_setup
+#   extends: .other:cache_invalidation
+#   needs: ["example:terraform:apply"]
+#   before_script:
+#     - *pre_script_env_common
 
 example:terraform:destroy:
   extends: .terraform:destroy
   <<: *example_setup
+  before_script:
+    - !reference [.terraform:destroy, before_script]
+    - *pre_script_env_common

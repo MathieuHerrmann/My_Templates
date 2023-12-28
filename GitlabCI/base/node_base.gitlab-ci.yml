@@ -28,7 +28,11 @@ cache:
 .node:test:
   extends: .test
   image: *node_image
+  before_script:
+    - echo "job $CI_JOB_NAME"
 
 .node:build:
   extends: .build
   image: *node_image
+  before_script:
+    - echo "job $CI_JOB_NAME"

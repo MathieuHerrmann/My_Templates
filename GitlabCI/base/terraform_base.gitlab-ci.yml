@@ -19,12 +19,16 @@ cache:
   paths:
     - ${TF_ROOT}/.terraform
 
+
 ###############################################################################
 ######################## YAML ANCHOR DEFINITION ###############################
 ###############################################################################
 
 .terraform_image: &terraform_image
   registry.gitlab.com/gitlab-org/terraform-images/stable:latest # Check the image version
+
+.pre_script_global_common: &pre_script_global_common
+  - echo "job_name is $CI_JOB_NAME"
 
 ###############################################################################
 ############################## JOBS CALL #######################################
@@ -33,23 +37,35 @@ cache:
 .terraform:init:
   image: *terraform_image
   extends: .init
+  before_script:
+    - *pre_script_global_common
 
 .terraform:fmt:
   image: *terraform_image
   extends: .fmt
+  before_script:
+    - *pre_script_global_common
 
 .terraform:validate:
   image: *terraform_image
   extends: .validate
+  before_script:
+    - *pre_script_global_common
 
 .terraform:plan:
   image: *terraform_image
   extends: .plan
+  before_script:
+    - *pre_script_global_common
 
 .terraform:apply:
   image: *terraform_image
   extends: .apply
+  before_script:
+    - *pre_script_global_common
 
 .terraform:destroy:
   image: *terraform_image
   extends: .destroy
+  before_script:
+    - *pre_script_global_common
