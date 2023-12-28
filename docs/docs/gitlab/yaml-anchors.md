@@ -3,7 +3,9 @@ sidebar_position: 5
 ---
 # YAML Anchors
 
-I'm using a functionnality of yaml that not well-known so there is a documentation about it that is made well: https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/
+I'm using a functionnality of yaml that not well-known so there is a documentation about it that is made well:
+- https://support.atlassian.com/bitbucket-cloud/docs/yaml-anchors/
+- https://docs.gitlab.com/ee/ci/yaml/yaml_optimization.html
 
 TLDR; it's like a variable that you define and you can call it so for example: 
 
@@ -16,3 +18,4 @@ jobs_name:
 ```
 
 in this example the image of the job will be equal to : `my_image`
+
