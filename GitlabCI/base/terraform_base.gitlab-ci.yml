@@ -14,10 +14,11 @@ include:
 ########################### GLOBAL DEFINITION #################################
 ###############################################################################
 
-cache:
-  key: ${ENV}_state
-  paths:
-    - ${TF_ROOT}/.terraform
+terrform_base_definition: &terrform_base_definition
+  cache:
+    key: ${ENV}_state
+    paths:
+      - ${TF_ROOT}/.terraform
 
 
 ###############################################################################
@@ -35,36 +36,42 @@ cache:
 ###############################################################################
 
 .terraform:init:
+  <<: *terrform_base_definition
   image: *terraform_image
   extends: .init
   before_script:
     - *pre_script_global_common
 
 .terraform:fmt:
+  <<: *terrform_base_definition
   image: *terraform_image
   extends: .fmt
   before_script:
     - *pre_script_global_common
 
 .terraform:validate:
+  <<: *terrform_base_definition
   image: *terraform_image
   extends: .validate
   before_script:
     - *pre_script_global_common
 
 .terraform:plan:
+  <<: *terrform_base_definition
   image: *terraform_image
   extends: .plan
   before_script:
     - *pre_script_global_common
 
 .terraform:apply:
+  <<: *terrform_base_definition
   image: *terraform_image
   extends: .apply
   before_script:
     - *pre_script_global_common
 
 .terraform:destroy:
+  <<: *terrform_base_definition
   image: *terraform_image
   extends: .destroy
   before_script:
